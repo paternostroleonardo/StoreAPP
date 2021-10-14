@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    const REATED = "REATED";
+    protected $guarded = [];
+    const CREATED = "CREATED";
     const PAYED = "PAYED";
     const REJECTED = "REJECTD";
 
@@ -16,7 +17,7 @@ class Order extends Model
     {
         //set values of columns status order
         return [
-            self::REATED,
+            self::CREATED,
             self::PAYED,
             self::REJECTED
         ];

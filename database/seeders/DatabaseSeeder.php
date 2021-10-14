@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Order;
 use App\Models\Product;
 
 class DatabaseSeeder extends Seeder
@@ -17,5 +18,6 @@ class DatabaseSeeder extends Seeder
         //execute class users seeders and fakes product
         $this->call(UserSeeder::class);
         Product::factory(6)->create();
+        Order::factory(3)->create();
     }
 }

@@ -17,12 +17,12 @@ class ProductController extends Controller
 
     public function store()
     {
-        $single_product = request()->validate([
+        $product = request()->validate([
             'name' => '',
             'value' => '',
             'url_image' => ''
         ]);
 
-        Product::create($single_product);
+        Product::create($product);
     }
 }
