@@ -16,7 +16,7 @@ use App\Http\Controllers\OrderController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('products');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

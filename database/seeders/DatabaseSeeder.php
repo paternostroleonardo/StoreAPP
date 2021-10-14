@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     {
         //execute class users seeders and fakes product
         $this->call(UserSeeder::class);
-        Product::factory(6)->create();
-        Order::factory(3)->create();
+        Product::factory(4)->create();
+        Order::factory(2)->create();
     }
 }

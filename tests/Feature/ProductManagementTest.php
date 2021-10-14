@@ -23,7 +23,7 @@ class ProductManagementTest extends TestCase
     {
         $this->withoutExceptionHandling();
 
-        Product::factory()->count(3)->make(); //data fake whit 3 register
+        Product::factory()->count(2)->make(); //data fake whit 3 register
 
         $response = $this->get('/products'); //called at route
 
