@@ -266,6 +266,8 @@
                                                 </p>
                                             </div>
                                             <input type="hidden" value="{{ $product_id }}" name="product_id">
+                                            <input type="hidden" value="{{ $name_product }}" name="name_product">
+                                            <input type="hidden" value="{{ $value_product }}" name="value_product">
                                             <div class="">
                                                 <p class="font-bold tracking-more-wider text-sm">
                                                     <button type="submit"

@@ -20,25 +20,29 @@ class OrderController extends Controller
 
        $orders = Order::all();
 
-       return view('orders.index', compact('orders', 'name_product', 'value_product', 'product_id'));
+       return view('orders.index', compact('name_product', 'value_product', 'product_id'));
     }
 
 
     public function store(Request $request)
     {
-        $request->validate([
+        $value_product = $request->value_product;
+        $name_product = $request->name_product;
+
+       $create_order = $request->validate([
             'customer_name' => 'required',
             'customer_email' => 'required',
             'customer_mobile' => 'required',
             'product_id' => 'required'
         ]);
 
-        Order::create($request->all());
-        return view('orders.detail');
+       $order = Order::create($create_order);
+
+        return view('orders.detail', ['order' => $order], compact('value_product', 'name_product'));
     }
 
-    public function show(Request $request)
+    public function show(Order $order, Request $request)
     {
-        //here my code
+        return view('orders.detail');
     }
 }

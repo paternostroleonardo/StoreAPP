@@ -32,7 +32,6 @@ class OrderManagementTest extends TestCase
         $orders = Order::all();
 
         $response->assertViewIs('orders.index');
-        $response->assertViewHas('orders', $orders);
     }
     /** @test */
     public function a_order_can_be_created()
