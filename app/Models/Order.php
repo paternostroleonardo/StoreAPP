@@ -4,11 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Order extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public $table = 'orders';
+
     const CREATED = "CREATED";
     const PAYED = "PAYED";
     const REJECTED = "REJECTD";
@@ -21,5 +25,11 @@ class Order extends Model
             self::PAYED,
             self::REJECTED
         ];
+    }
+
+    public static function booted(){
+        static::creating(function ($model){
+            $model->uuid = Str::uuid();
+        });
     }
 }

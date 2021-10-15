@@ -25,7 +25,7 @@ class OrderManagementTest extends TestCase
 
         Order::factory()->count(3)->make(); //data fake whit 3 register
 
-        $response = $this->get('/orders'); //called at route
+        $response = $this->get('/orders/1'); //called at route
 
         $response->assertOk();
 
@@ -43,7 +43,7 @@ class OrderManagementTest extends TestCase
 
         $response = $this->post('/orders', [
             'product_id' => $product->id,
-            'code' => $this->faker->uuid(),
+            'uuid' => $this->faker->uuid(),
             'customer_name' => $this->faker->name(),
             'customer_email' => $this->faker->email(),
             'customer_mobile' => $this->faker->phoneNumber(),

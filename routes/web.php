@@ -27,4 +27,6 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
 Route::resource('/products', ProductController::class);
 
 //Routes orders
-Route::resource('/orders', OrderController::class);
+Route::get('/orders/{product_id}', [OrderController::class, 'index'])->name('orders.index'); //only have access if selection a product
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+Route::get('/orders/detail', [OrderController::class, 'show'])->name('orders.detail');

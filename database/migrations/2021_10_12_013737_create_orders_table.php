@@ -18,7 +18,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
-            $table->uuid('code');
+            $table->uuid('uuid');
             $table->string('customer_name');
             $table->string('customer_email');
             $table->string('customer_mobile');
