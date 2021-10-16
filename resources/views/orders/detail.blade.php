@@ -232,22 +232,27 @@
                 </div>
 
                 <footer class="flex justify-center">
-                    <button style="background-color: #FF7308;"
+                    <form action="{{ route('orders.pay') }}" method="POST">
+                    <input type="hidden" value="{{$order['product_id']}}" name="product_id">
+                    <input type="hidden" value="{{$order['customer_name']}}" name="customer_name">
+                    <input type="hidden" value="{{$order['customer_email']}}" name="customer_email">
+                    <input type="hidden" value="{{$order['customer_mobile']}}" name="customer_mobile">
+                    <button style="background-color: #FF7308;" type="submit"
                         class="flex items-center px-4 py-3 text-xl font-bold text-white rounded-xl">
-                        <p>Pagar</p>
+                        Pagar
                         <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
                                 d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                                 clip-rule="evenodd"></path>
                         </svg>
                     </button> <br>
+                    </form>
                 </footer>
                 <small class="text-gray-900 text-sm ml-16 p-4 mr-1"><a href="/products">Pagar más tarde...</a><small>
             </section>
         </main>
     </div>
 </div>
-
 <div class="">
     <footer class="text-gray-600 body-font" style="background-color: #FE5401;">
       <div class="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">

@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use App\Services\PayService;
+use Illuminate\Support\Facades\Http;
+
 
 class OrderController extends Controller
 {
@@ -44,5 +46,35 @@ class OrderController extends Controller
     public function show(Order $order, Request $request)
     {
         return view('orders.detail');
+    }
+
+    public function pay(Request $request)
+    {
+        dd($request);
+       return redirect('orders.detail');
+    }
+
+    public function response($order_id)
+    {
+        $data = (object)[];
+        $order = Order::find($order_id);
+
+        $response = PayService::getRequestInfo($order->requestId);
+        $order->status = $response['status']['status'];
+        $order->save();
+        switch ($order->status) {
+            case 1:
+                  $data->estado_compra = "Creada";
+                break;
+            case 2:
+                $data->estado_compra = "Pagada";
+                break;
+            case 3:
+                $data->estado_compra = "Rechazada";
+                break;
+        }
+
+        $data->order = $order;
+        return view('products.index', [ 'data' => $data]);
     }
 }

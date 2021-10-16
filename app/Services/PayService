@@ -1,0 +1,89 @@
+<?php
+
+namespace App\Services;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
+class PayService
+{
+    private $url;
+    private $login;
+    private $key;
+
+    private static function initialize()
+    {
+        self::$url = env('APP_PLACETOPLAY_URL');
+        self::$login = env('APP_PLACETOPLAY_LOGIN');
+        self::$key = env('APP_PLACETOPLAY_SECRET_KEY');
+    }
+
+    public static function Credentials()
+    {
+        self::initialize();
+        $secret_key = self::$key;
+
+        $seed = date('c');
+
+        if (function_exists('random_bytes')) {
+            $nonce = bin2hex(random_bytes(16));
+        } elseif (function_exists('openssl_random_pseudo_bytes')) {
+            $nonce = bin2hex(openssl_random_pseudo_bytes(16));
+        } else {
+            $nonce = mt_rand();
+        }
+
+        $nonceBase64 = base64_encode($nonce);
+        $tranKey = base64_encode(sha1($nonce . $seed . $secret_key, true));
+
+            $auth = array
+            (
+                'login' => self::$login,
+                'seed' => $seed,
+                'nonce' => $nonceBase64,
+                'tranKey' => $tranKey,
+            );
+
+            return $auth;
+    }
+
+    public static function postRequest(Request $request, $referenceId)
+    {
+        self::initialize();
+
+        $endpoint = self::$url.'/api/session';
+        $endpointResponse =  url('orders/show/'.$referenceId);
+        $credentials = self::Credentials();
+
+        $response = Http::post($endpoint, [
+            'auth' => $credentials,
+            'payment' => [
+                'reference' => $referenceId,
+                'description' => $request->product_name.''.$request->product_price,
+                'amount' => [
+                    'currency' => 'COP',
+                    'total' => $request->product_price,
+                ],
+            ],
+            'expiration' => date('c', strtotime('+1 hour')),
+            'returnUrl' => $endpointResponse,
+            'ipAddress' => '127.0.0.1',
+            'userAgent' => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'
+        ]);
+
+        return $response->json();
+    }
+
+    public static function getRequestInfo($requestId)
+    {
+       self::initialize();
+       $endpoint = self::$url.'/api/session'.$requestId;
+       $credentials = self::Credentials();
+
+       $response = Http::post($endpoint, [
+           'auth' => $credentials
+       ]);
+
+       return $response->json();
+    }
+}

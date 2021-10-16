@@ -30,3 +30,5 @@ Route::resource('/products', ProductController::class);
 Route::get('/orders/{product_id}', [OrderController::class, 'index'])->name('orders.index'); //only have access if selection a product
 Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 Route::get('/orders/resume', [OrderController::class, 'show'])->name('orders.detail');
+Route::post('/orders/pay', [OrderController::class, 'pay'])->name('orders.pay');
+
